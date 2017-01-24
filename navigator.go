@@ -145,7 +145,7 @@ func New(config *Config) Navigator {
 	log.Info(logTag, "Discovery node started...")
 
 	// no seeds, will use the seeds service
-	if len(config.DConfig.Seed) == 0 {
+	if len(config.DConfig.Seed) == 0 && navigator.seedsService != nil {
 		log.Info(logTag, "Seeds not provided, use seeds service instead...")
 		navigator.seedsService.Start()
 		log.Info(logTag, "Seeds service started...")
@@ -178,10 +178,14 @@ func (n *Impl) Start() error {
 		}
 		log.Infof(logTag, "Successfully joined the cluster with %d nodes", n.dNode.NumNodes())
 	} else {
-		log.Info(logTag, "No seeds provided, will use seeds service")
-		seeds, err := n.seedsService.GetN(3)
-		if err != nil {
-			return err
+		seeds := []string{}
+		var err error
+		if n.seedsService != nil {
+			log.Info(logTag, "No seeds provided, will use seeds service")
+			seeds, err = n.seedsService.GetN(3)
+			if err != nil {
+				return err
+			}
 		}
 		if len(seeds) > 0 {
 			_, err = n.dNode.Join(seeds, false)
@@ -190,7 +194,7 @@ func (n *Impl) Start() error {
 			}
 			log.Infof(logTag, "Successfully joined the cluster with %d nodes", n.dNode.NumNodes())
 		} else {
-			log.Info(logTag, "No seeds found in redis, join self as a single node cluster...")
+			log.Info(logTag, "No seeds found in seed service, join self as a single node cluster...")
 			_, err = n.dNode.Join([]string{discovery.GetClusterAddrStr(n.config.DConfig)}, false)
 			if err != nil {
 				return err

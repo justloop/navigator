@@ -45,9 +45,6 @@ func setDefaultConfig(config *Config) *Config {
 	if config.Strategy == nil {
 		config.Strategy = partition.NewIndentityStrategy()
 	}
-	if config.SeedsService == nil {
-
-	}
 
 	// Set default replication
 	config.ReplicaPoints = utils.SelectInt(config.ReplicaPoints, defaultReplication)
