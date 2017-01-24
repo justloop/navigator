@@ -2,7 +2,7 @@
 Navigator is a distributed framework for your go service.
 
 ##
-Navigator can serve as the distributed layer. It contains a set of libs for distributed system
+Navigator can serve as the distributed layer. It very light weighted, just contains a set of libs for distributed system
 
 Components
 
