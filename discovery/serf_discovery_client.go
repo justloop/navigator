@@ -57,6 +57,11 @@ func (s *SerfClient) AliveServersWithTags() (map[string]map[string]string, error
 	return result, nil
 }
 
+// Stats will return a list of stats regarding the discovery cluster
+func (s *SerfClient) Stats() map[string]map[string]string {
+	return s.c.Stats()
+}
+
 // Close will close the client session
 func (s *SerfClient) Close() error {
 	return s.c.Close()

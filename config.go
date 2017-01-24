@@ -3,8 +3,8 @@ package navigator
 import (
 	"github.com/justloop/navigator/discovery"
 	"github.com/justloop/navigator/partition"
-	"github.com/justloop/navigator/utils"
 	"github.com/justloop/navigator/seeds"
+	"github.com/justloop/navigator/utils"
 )
 
 const (

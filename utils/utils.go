@@ -19,20 +19,19 @@ import (
 
 	"runtime"
 
-	"github.com/dgryski/go-farm"
-	log "github.com/Sirupsen/logrus"
-	"sync"
 	"net"
-)
+	"sync"
 
+	log "github.com/Sirupsen/logrus"
+	"github.com/dgryski/go-farm"
+)
 
 // this is the L1 cached value for the hostname
 var (
-	logTag = "Util"
+	logTag         = "Util"
 	cachedHostname = ""
 	getHostLocker  sync.Mutex
 )
-
 
 // GetMD5Hash will generate a md5 hash key from the string
 func GetMD5Hash(text string) string {
@@ -215,7 +214,6 @@ var GetHostname = func() string {
 	log.Errorf(logTag, "getSelfID failed to find any usable network interfaces on the current machine", err)
 	return ""
 }
-
 
 // GetCheckSumFromNodes will Get the checkSum from nodes
 func GetCheckSumFromNodes(nodes []string) uint32 {

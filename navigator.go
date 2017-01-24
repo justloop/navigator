@@ -10,9 +10,9 @@ import (
 	"sync"
 
 	log "github.com/Sirupsen/logrus"
+	"github.com/justloop/navigator/discovery"
 	"github.com/justloop/navigator/hashring"
 	"github.com/justloop/navigator/partition"
-	"github.com/justloop/navigator/discovery"
 	"github.com/justloop/navigator/seeds"
 )
 

@@ -210,6 +210,11 @@ func (node *SerfDiscoverNode) AliveServersWithTags() map[string]map[string]strin
 	return result
 }
 
+// Stats will return a list of stats regarding the discovery cluster
+func (node *SerfDiscoverNode) Stats() map[string]map[string]string {
+	return node.delegate.Stats()
+}
+
 // GetServers will convert to list of Member to Server info
 func GetServers(members []serf.Member) []string {
 	servers := []string{}

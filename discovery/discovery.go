@@ -39,6 +39,8 @@ type Node interface {
 	GetServersWithTags() map[string]map[string]string
 	//AliveServersWithTags will return a map of alive server to it's tags
 	AliveServersWithTags() map[string]map[string]string
+	//Stats will return the stats regarding the discovery cluster
+	Stats() map[string]map[string]string
 }
 
 // Client is the client to talk to Node
@@ -49,6 +51,8 @@ type Client interface {
 	AliveServers() ([]string, error)
 	//AliveServersWithTags will return a map of alive server to it's tags
 	AliveServersWithTags() (map[string]map[string]string, error)
+	//Stats will return the stats regarding the discovery cluster
+	Stats() (map[string]map[string]string, error)
 	// Close will close the session to discovery cluster
 	Close() error
 }

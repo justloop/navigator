@@ -3,9 +3,10 @@ package navigator
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-	"github.com/justloop/navigator/discovery"
 	"time"
+
+	"github.com/justloop/navigator/discovery"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestNode(t *testing.T) {
@@ -30,5 +31,5 @@ func TestNode(t *testing.T) {
 
 	list, err := node.GetServerList()
 	assert.Nil(t, err)
-	assert.Equal(t, map[string]map[string]string{"127.0.0.1:7946":{}}, list)
+	assert.Equal(t, map[string]map[string]string{"127.0.0.1:7946": {}}, list)
 }

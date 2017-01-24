@@ -12,13 +12,14 @@ package client
 import (
 	"time"
 
+	"net"
+	"strconv"
+
 	log "github.com/Sirupsen/logrus"
 	"github.com/justloop/navigator/discovery"
 	"github.com/justloop/navigator/hashring"
 	"github.com/justloop/navigator/partition"
 	"github.com/justloop/navigator/utils"
-	"net"
-	"strconv"
 )
 
 // logTag is the logging tag for NavigatorClient
@@ -38,6 +39,9 @@ type Client interface {
 	// the writer will have to be responsible to write to all the servers, but ignore any fails
 	// return a map from shardId to servers
 	ResolveWrite(key string, op partition.Option) (map[string][]string, error)
+
+	//Stats will return the stats regarding the discovery cluster
+	Stats() (map[string]map[string]string, error)
 }
 
 // Impl is the implementation of client
@@ -151,4 +155,9 @@ func (c *Impl) ResolveRead(key string, op partition.Option) (map[string][]string
 // ResolveWrite implements the Client interface
 func (c *Impl) ResolveWrite(key string, op partition.Option) (map[string][]string, error) {
 	return c.resolver.ResolveWrite(key, op)
+}
+
+//Stats implements the Client interface
+func (c *Impl) Stats() (map[string]map[string]string, error) {
+	return c.dClient.Stats()
 }
