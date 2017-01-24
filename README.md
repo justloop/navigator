@@ -26,8 +26,8 @@ Configuration of navigator is easy and trivial. Configuration file is all you ne
 	       // Strategy is the partition strategy, optional, default IdentityStrategy
 	       Strategy partition.Strategy
 
-	       // SeedsRefreshInterval is the frequency to refresh current node to seeds service
-	       SeedsRefreshInterval time.Duration
+	       // SeedsService is a implementation of seedsService that used to auto get a list of seeds to join
+           SeedsService seeds.Seeds
 
 	       // OnMemberEvent is the callback handler to be invoked when repartition happens,
 	       // and the node will need to reload data, optional, default, no rehashHandler
