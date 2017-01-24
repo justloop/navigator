@@ -23,7 +23,7 @@ Configuration of navigator is easy and trivial. Configuration file is all you ne
 	       // DConfig is the configuration for discovery client, optional, default use default discovery config
 	       DConfig *discovery.Config
 
-	       // Strategy is the partition strategy, optional, default IdentityStrategy
+	       // Strategy is the partition strategy, optional, default IdentityStrategy, will resolve key to key itself and map key to a server
 	       Strategy partition.Strategy
 
 	       // SeedsService is a implementation of seedsService that used to auto get a list of seeds to join
