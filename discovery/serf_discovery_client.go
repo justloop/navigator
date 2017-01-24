@@ -7,10 +7,6 @@ import (
 	"github.com/hashicorp/serf/serf"
 )
 
-const (
-	logTagClient = "discovery.client"
-)
-
 // SerfClient is the client to communicate with serf cluster
 type SerfClient struct {
 	c *client.RPCClient
@@ -50,15 +46,15 @@ func (s *SerfClient) AliveServersWithTags() (map[string]map[string]string, error
 		return result, err
 	}
 	for _, member := range allMembers {
-		if member.Status == serf.StatusAlive {
-			result[getServer(member)] = member.Tags
+		if member.Status == serf.StatusAlive.String() {
+			result[getClientServer(member)] = member.Tags
 		}
 	}
 	return result, nil
 }
 
 // Stats will return a list of stats regarding the discovery cluster
-func (s *SerfClient) Stats() map[string]map[string]string {
+func (s *SerfClient) Stats() (map[string]map[string]string, error) {
 	return s.c.Stats()
 }
 
@@ -74,4 +70,9 @@ func getClientServers(members []client.Member) []string {
 		servers = append(servers, member.Addr.String()+":"+strconv.Itoa(int(member.Port)))
 	}
 	return servers
+}
+
+// getClientServer will convert member object to string info
+func getClientServer(member client.Member) string {
+	return member.Addr.String() + ":" + strconv.Itoa(int(member.Port))
 }
