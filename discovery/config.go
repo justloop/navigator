@@ -66,6 +66,7 @@ var getAgentAndSerfConfig = func(config *Config) (*agent.Config, *serf.Config) {
 	if len(config.ClientAddr) > 0 && config.ClientPort > 0 {
 		aConfig.RPCAddr = GetClientAddrStr(config)
 	}
+	aConfig.LogLevel = "WARN"
 	sConfig := serf.DefaultConfig()
 	if len(config.Address) > 0 {
 		sConfig.MemberlistConfig.BindAddr = config.Address
