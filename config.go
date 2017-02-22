@@ -1,6 +1,8 @@
 package navigator
 
 import (
+	"time"
+
 	"github.com/justloop/navigator/discovery"
 	"github.com/justloop/navigator/partition"
 	"github.com/justloop/navigator/seeds"
@@ -27,6 +29,9 @@ type Config struct {
 	// SeedsService is a implementation of seedsService that used to auto get a list of seeds to join
 	SeedsService seeds.Seeds
 
+	// SeedsRefreshInterval is the frequency to refresh current node to seeds service
+	SeedsRefreshInterval time.Duration
+
 	// OnMemberEvent is the callback handler to be invoked when repartition happens,
 	// and the node will need to reload data, optional, default, no rehashHandler
 	OnMemberEvent func(event discovery.MemberEvent) error
@@ -44,6 +49,10 @@ func setDefaultConfig(config *Config) *Config {
 	// Set default partition strategy
 	if config.Strategy == nil {
 		config.Strategy = partition.NewIndentityStrategy()
+	}
+
+	if config.SeedsRefreshInterval == 0 {
+		config.SeedsRefreshInterval = 1 * time.Minute
 	}
 
 	// Set default replication

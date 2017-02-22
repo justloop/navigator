@@ -108,6 +108,9 @@ import (
 	"github.com/justloop/navigator/hashring"
 	"github.com/justloop/navigator/partition"
 	"github.com/justloop/navigator/seeds"
+	"github.com/justloop/navigator/utils"
+	"github.com/myteksi/go/commons/util/monitor/statsd"
+	"github.com/uber/ringpop-go/logging"
 )
 
 // logTag is the logging tag related to this navigator
@@ -296,8 +299,46 @@ func (n *Impl) Start() error {
 		}
 	}
 	n.startTime = time.Now()
+	// periodically to join the cluster, eventually will get the whole cluster
+	n.StartJoinService()
 	n.setState(ready)
 	return nil
+}
+
+// StartJoinService is a separate go routing will periodically join the new nodes
+func (n *Impl) StartJoinService() {
+	refreshTicker := time.NewTicker(n.config)
+	go func() {
+		defer utils.DoPanicRecovery("join-service")
+
+		logging.Info(logTag, "Starting join service process...")
+		for {
+			select {
+			case <-refreshTicker.C:
+				seeds, err := n.seedsService.GetN(3)
+				if err != nil {
+					logging.Warn(logTag, "Failed to get seeds", err)
+				}
+				if len(seeds) > 1 {
+					_, err = n.dNode.Join(seeds, false)
+					if err != nil {
+						logging.Warn(logTag, "Failed to join cluster", err)
+					}
+					logging.Info(logTag, "Successfully joined the cluster with %d nodes", n.dNode.NumNodes())
+				}
+				num, errNode := n.ring.GetNumNodes()
+				if errNode != nil {
+					logging.Warn(logTag, "Error get ring count %s", errNode)
+				} else {
+					statsd.TrackGauge(logTag, "Navigator.RingNodeCount", float64(num), []string{"appname:sextant"}...)
+				}
+			case <-n.cancelCtx.Done():
+				logging.Info(logTag, "Stop join service info received")
+				refreshTicker.Stop()
+				return
+			}
+		}
+	}()
 }
 
 // Stop implements Navigator
