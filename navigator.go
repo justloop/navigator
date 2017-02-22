@@ -307,7 +307,7 @@ func (n *Impl) Start() error {
 
 // StartJoinService is a separate go routing will periodically join the new nodes
 func (n *Impl) StartJoinService() {
-	refreshTicker := time.NewTicker(n.config)
+	refreshTicker := time.NewTicker(n.config.SeedsRefreshInterval)
 	go func() {
 		defer utils.DoPanicRecovery("join-service")
 
