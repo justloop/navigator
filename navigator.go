@@ -110,7 +110,6 @@ import (
 	"github.com/justloop/navigator/seeds"
 	"github.com/justloop/navigator/utils"
 	"github.com/myteksi/go/commons/util/monitor/statsd"
-	"github.com/uber/ringpop-go/logging"
 )
 
 // logTag is the logging tag related to this navigator
@@ -311,7 +310,7 @@ func (n *Impl) StartJoinService() {
 	go func() {
 		defer utils.DoPanicRecovery("join-service")
 
-		logging.Info(logTag, "Starting join service process...")
+		log.Infof(logTag, "Starting join service process...")
 		for {
 			select {
 			case <-refreshTicker.C:
