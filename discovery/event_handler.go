@@ -62,7 +62,6 @@ func (h *NavigatorEventHandler) processMemberEvent(casted serf.MemberEvent) erro
 	case serf.EventMemberReap:
 		eventType = EventMemberReap
 	case serf.EventMemberUpdate:
-		log.Infof(logTag, "received EventMemberUpdate event: %s, ignored", utils.GetJSONStr(casted))
 		return nil
 	default:
 		log.Warnf(logTag, "unknown member event received: %s", utils.GetJSONStr(casted))
