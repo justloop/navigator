@@ -108,7 +108,6 @@ import (
 	"github.com/justloop/navigator/hashring"
 	"github.com/justloop/navigator/partition"
 	"github.com/justloop/navigator/utils"
-	"github.com/myteksi/go/commons/util/monitor/statsd"
 )
 
 // logTag is the logging tag related to this navigator
@@ -319,13 +318,9 @@ func (n *Impl) StartJoinService() {
 					if err != nil {
 						log.Warnf(logTag, "Failed to join cluster", err)
 					}
-					log.Warnf(logTag, "Successfully joined the cluster with %d nodes", n.dNode.NumNodes())
-				}
-				num, errNode := n.ring.GetNumNodes()
-				if errNode != nil {
-					log.Warnf(logTag, "Error get ring count %s", errNode)
+					log.Infof(logTag, "Successfully joined the cluster with %d nodes", n.dNode.NumNodes())
 				} else {
-					statsd.TrackGauge(logTag, "Navigator.RingNodeCount", float64(num), []string{"appname:sextant"}...)
+					log.Infof(logTag, "Not enough seeds to join", seeds)
 				}
 			case <-n.cancelCtx.Done():
 				log.Infof(logTag, "Stop join service info received")
