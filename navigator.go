@@ -317,23 +317,23 @@ func (n *Impl) StartJoinService() {
 			case <-refreshTicker.C:
 				seeds, err := n.seedsService.GetN(3)
 				if err != nil {
-					logging.Warn(logTag, "Failed to get seeds", err)
+					log.Warnf(logTag, "Failed to get seeds", err)
 				}
 				if len(seeds) > 1 {
 					_, err = n.dNode.Join(seeds, false)
 					if err != nil {
-						logging.Warn(logTag, "Failed to join cluster", err)
+						log.Warnf(logTag, "Failed to join cluster", err)
 					}
-					logging.Info(logTag, "Successfully joined the cluster with %d nodes", n.dNode.NumNodes())
+					log.Warnf(logTag, "Successfully joined the cluster with %d nodes", n.dNode.NumNodes())
 				}
 				num, errNode := n.ring.GetNumNodes()
 				if errNode != nil {
-					logging.Warn(logTag, "Error get ring count %s", errNode)
+					log.Warnf(logTag, "Error get ring count %s", errNode)
 				} else {
 					statsd.TrackGauge(logTag, "Navigator.RingNodeCount", float64(num), []string{"appname:sextant"}...)
 				}
 			case <-n.cancelCtx.Done():
-				logging.Info(logTag, "Stop join service info received")
+				log.Infof(logTag, "Stop join service info received")
 				refreshTicker.Stop()
 				return
 			}
