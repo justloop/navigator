@@ -310,7 +310,7 @@ func (n *Impl) StartJoinService() {
 		for {
 			select {
 			case <-refreshTicker.C:
-				seeds, err := n.seedsService.GetN(3)
+				seeds, err := n.config.SeedsService.GetN(3)
 				if err != nil {
 					log.Warnf(logTag, "Failed to get seeds", err)
 				}
