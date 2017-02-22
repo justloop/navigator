@@ -107,7 +107,6 @@ import (
 	"github.com/justloop/navigator/discovery"
 	"github.com/justloop/navigator/hashring"
 	"github.com/justloop/navigator/partition"
-	"github.com/justloop/navigator/seeds"
 	"github.com/justloop/navigator/utils"
 	"github.com/myteksi/go/commons/util/monitor/statsd"
 )
@@ -187,9 +186,6 @@ type Impl struct {
 	// resolver is the partition resolver
 	resolver partition.Resolver
 
-	// seedsService can be implemented by user for navigator use to get seeds
-	seedsService seeds.Seeds
-
 	// startTime is the start time of this node
 	startTime time.Time
 
@@ -241,9 +237,9 @@ func New(config *Config) Navigator {
 	log.Info(logTag, "Discovery node started...")
 
 	// no seeds, will use the seeds service
-	if len(config.DConfig.Seed) == 0 && navigator.seedsService != nil {
+	if len(config.DConfig.Seed) == 0 && navigator.config.SeedsService != nil {
 		log.Info(logTag, "Seeds not provided, use seeds service instead...")
-		navigator.seedsService.Start()
+		navigator.config.SeedsService.Start()
 		log.Info(logTag, "Seeds service started...")
 	}
 
@@ -276,9 +272,9 @@ func (n *Impl) Start() error {
 	} else {
 		seeds := []string{}
 		var err error
-		if n.seedsService != nil {
+		if n.config.SeedsService != nil {
 			log.Info(logTag, "No seeds provided, will use seeds service")
-			seeds, err = n.seedsService.GetN(3)
+			seeds, err = n.config.SeedsService.GetN(3)
 			if err != nil {
 				return err
 			}
