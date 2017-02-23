@@ -256,6 +256,9 @@ func (n *Impl) Debug() map[string]interface{} {
 	nodes, _ := n.ring.GetNodes()
 	debug["hashring"] = nodes
 	debug["strategy"] = n.config.Strategy.GetName()
+	for k, v := range n.dNode.Stats() {
+		debug[k] = v
+	}
 	return debug
 }
 
