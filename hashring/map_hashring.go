@@ -24,6 +24,14 @@ func NewMapHashRing(replication int) *MapHashRing {
 	}
 }
 
+// NewMapHashRingWithKeyHash will create a new MapHashRing instance with customized key hash function
+func NewMapHashRingWithKeyHash(replication int, keyHashFunc func(key string) uint32) *MapHashRing {
+	return &MapHashRing{
+		ring:        mapring.NewWithHash([]string{}, keyHashFunc),
+		replication: replication,
+	}
+}
+
 // AddNode will add one node to the ring, node format: [address:port].
 func (r *MapHashRing) AddNode(node string) error {
 	r.Lock()

@@ -113,9 +113,6 @@ import (
 // logTag is the logging tag related to this navigator
 var logTag = "navigator.service"
 
-// default the cpu info is refreshed every 5 seconds
-var defaultCPURefreshInterval = time.Second * 5
-
 // state represents the internal state of a Navigator instance.
 type state uint
 
@@ -202,8 +199,13 @@ func New(config *Config) Navigator {
 		config: config,
 	}
 	navigator.cancelCtx, navigator.cancelFuc = context.WithCancel(context.Background())
-	navigator.ring = hashring.NewMapHashRing(config.ReplicaPoints)
-	log.Info(logTag, "HashRing created...")
+	if config.keyHashFunc == nil {
+		navigator.ring = hashring.NewMapHashRing(config.ReplicaPoints)
+		log.Info(logTag, "HashRing created...")
+	} else {
+		navigator.ring = hashring.NewMapHashRingWithKeyHash(config.ReplicaPoints, config.keyHashFunc)
+		log.Info(logTag, "HashRing with Key Hash Function created...")
+	}
 
 	navigator.resolver = partition.NewRingResolver(navigator.ring, config.Strategy)
 	log.Info(logTag, "Resolver created...")
