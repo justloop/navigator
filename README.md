@@ -23,6 +23,9 @@ Configuration of navigator is easy and trivial. Configuration file is all you ne
 	       // DConfig is the configuration for discovery client, optional, default use default discovery config
 	       DConfig *discovery.Config
 
+	       // KeyHashFunc is the customized key hash function, if return 0, it will use default hash function as well
+           KeyHashFunc func(key string) uint32
+
 	       // Strategy is the partition strategy, optional, default IdentityStrategy, will resolve key to key itself and map key to a server
 	       Strategy partition.Strategy
 

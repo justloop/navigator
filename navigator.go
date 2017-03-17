@@ -199,11 +199,11 @@ func New(config *Config) Navigator {
 		config: config,
 	}
 	navigator.cancelCtx, navigator.cancelFuc = context.WithCancel(context.Background())
-	if config.keyHashFunc == nil {
+	if config.KeyHashFunc == nil {
 		navigator.ring = hashring.NewMapHashRing(config.ReplicaPoints)
 		log.Info(logTag, "HashRing created...")
 	} else {
-		navigator.ring = hashring.NewMapHashRingWithKeyHash(config.ReplicaPoints, config.keyHashFunc)
+		navigator.ring = hashring.NewMapHashRingWithKeyHash(config.ReplicaPoints, config.KeyHashFunc)
 		log.Info(logTag, "HashRing with Key Hash Function created...")
 	}
 

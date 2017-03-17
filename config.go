@@ -33,7 +33,7 @@ type Config struct {
 	SeedsRefreshInterval time.Duration
 
 	// KeyHashFunc is the customized key hash function, if return 0, it will use default hash function as well
-	keyHashFunc func(key string) uint32
+	KeyHashFunc func(key string) uint32
 
 	// OnMemberEvent is the callback handler to be invoked when repartition happens,
 	// and the node will need to reload data, optional, default, no rehashHandler
