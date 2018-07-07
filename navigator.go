@@ -99,15 +99,14 @@ package navigator
 
 import (
 	"context"
+	"sync"
 	"time"
 
-	"sync"
-
-	log "github.com/Sirupsen/logrus"
 	"github.com/justloop/navigator/discovery"
 	"github.com/justloop/navigator/hashring"
 	"github.com/justloop/navigator/partition"
 	"github.com/justloop/navigator/utils"
+	log "github.com/sirupsen/logrus"
 )
 
 // logTag is the logging tag related to this navigator

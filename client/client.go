@@ -10,16 +10,15 @@ Currently not using this because it has to expose a separate port to all other s
 package client
 
 import (
-	"time"
-
 	"net"
 	"strconv"
+	"time"
 
-	log "github.com/Sirupsen/logrus"
 	"github.com/justloop/navigator/discovery"
 	"github.com/justloop/navigator/hashring"
 	"github.com/justloop/navigator/partition"
 	"github.com/justloop/navigator/utils"
+	log "github.com/sirupsen/logrus"
 )
 
 // logTag is the logging tag for NavigatorClient

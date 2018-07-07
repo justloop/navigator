@@ -1,9 +1,9 @@
 package navigator
 
 import (
-	log "github.com/Sirupsen/logrus"
 	"github.com/justloop/navigator/discovery"
 	"github.com/justloop/navigator/utils"
+	log "github.com/sirupsen/logrus"
 )
 
 // logTagListener is the logging tag for EventListener

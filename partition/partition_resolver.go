@@ -1,8 +1,8 @@
 package partition
 
 import (
-	log "github.com/Sirupsen/logrus"
 	"github.com/justloop/navigator/hashring"
+	log "github.com/sirupsen/logrus"
 )
 
 // Resolver resolves a key to corresponding servers

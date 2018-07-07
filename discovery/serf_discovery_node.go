@@ -2,15 +2,14 @@ package discovery
 
 import (
 	"context"
-	"strconv"
-
 	"io"
 	"net"
 	"os"
+	"strconv"
 
-	log "github.com/Sirupsen/logrus"
 	"github.com/hashicorp/serf/cmd/serf/command/agent"
 	"github.com/hashicorp/serf/serf"
+	log "github.com/sirupsen/logrus"
 )
 
 var (
