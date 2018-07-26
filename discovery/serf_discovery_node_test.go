@@ -1,17 +1,15 @@
 package discovery
 
 import (
+	"encoding/json"
+	"os"
+	"reflect"
+	"sync"
 	"testing"
 	"time"
 
-	"reflect"
-	"sync"
-
-	"os"
-
 	"github.com/hashicorp/serf/cmd/serf/command/agent"
 	"github.com/hashicorp/serf/serf"
-	"github.com/myteksi/go/sextant/commons/utils"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -100,10 +98,18 @@ func newTestEventHandler(ignoreFail bool) *testEventHandler {
 	return eventHandler
 }
 
+func getJSONStr(t interface{}) string {
+	item, err := json.Marshal(t)
+	if err == nil {
+		return string(item)
+	}
+	return ""
+}
+
 func (eventHandler *testEventHandler) string() string {
 	a := ""
 	for _, event := range eventHandler.memberEventList {
-		a = a + "|" + utils.GetJSONStr(event)
+		a = a + "|" + getJSONStr(event)
 	}
 	return a
 }

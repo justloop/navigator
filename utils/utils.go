@@ -8,22 +8,17 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-
-	"runtime/debug"
-
 	"math/rand"
-	"time"
-
+	"net"
+	"runtime"
+	"runtime/debug"
 	"sort"
 	"strings"
-
-	"runtime"
-
-	"net"
 	"sync"
+	"time"
 
-	log "github.com/Sirupsen/logrus"
 	"github.com/dgryski/go-farm"
+	log "github.com/sirupsen/logrus"
 )
 
 // this is the L1 cached value for the hostname

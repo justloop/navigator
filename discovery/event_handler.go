@@ -3,9 +3,9 @@ package discovery
 import (
 	"errors"
 
-	log "github.com/Sirupsen/logrus"
 	"github.com/hashicorp/serf/serf"
 	"github.com/justloop/navigator/utils"
+	log "github.com/sirupsen/logrus"
 )
 
 // NavigatorEventHandler is the wraper to agent.EventHanlder to hide serf from user
